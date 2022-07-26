@@ -49,25 +49,4 @@ jobs:
         ls ${{ github.workspace }}
         python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South'
         python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South'
-    - name: Run NextBus.py with pytest results
-      run: |
-        echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-        echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-        echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-    #Check out repository code
-        echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-        echo "🖥️ The workflow is now ready to test your code on the runner."
-    # Run the NextBus with sample scenarios    
-        python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South' --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml
-        python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South' --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml
-    - name: Upload pytest test results
-      uses: actions/upload-artifact@v3
-      with:
-        name: pytest-results-${{ matrix.python-version }}
-        path: junit/test-results-${{ matrix.python-version }}.xml
-      # Use always() to always run this step to publish test results when there are test failures
-      if: ${{ always() }}  
-    - name: List files in the repository
-      run: |
-        ls ${{ github.workspace }}
         echo "🍏 This job's status is ${{ job.status }}."
