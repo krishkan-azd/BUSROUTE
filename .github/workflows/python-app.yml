@@ -50,3 +50,10 @@ jobs:
         python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South' --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml
         python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South' --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml
         echo "🍏 This job's status is ${{ job.status }}."
+    - name: Upload pytest test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: pytest-results-${{ matrix.python-version }}
+          path: junit/test-results-${{ matrix.python-version }}.xml
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
