@@ -47,6 +47,6 @@ jobs:
     - name: List files in the repository
       run: |
         ls ${{ github.workspace }}
-        python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South'
-        python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South'
+        python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South' --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml
+        python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South' --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml
         echo "🍏 This job's status is ${{ job.status }}."
