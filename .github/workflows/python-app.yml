@@ -51,8 +51,8 @@ jobs:
     - name: List files in the repository and sample run nextbus.py examples
       run: |
         ls ${{ github.workspace }}
-        python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South' | tee junit/test-results-${{ matrix.python-version }}.txt
-        python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South' --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+        echo $(python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South') > junit/test-results-${{ matrix.python-version }}.txt
+        echo $(python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South') > junit/test-results-${{ matrix.python-version }}.txt
         echo "🍏 This job's status is ${{ job.status }}."
     - name: Upload pytest test results
       uses: actions/upload-artifact@v3
@@ -60,15 +60,4 @@ jobs:
         name: pytest-results-${{ matrix.python-version }}
         path: junit/test-results-${{ matrix.python-version }}.txt
       # Use always() to always run this step to publish test results when there are test failures
-      if: ${{ always() }}
-    - name: Run python
-      run: |
-        var=$(python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 1' 'South')
-        echo $var
-    - name: Push to github
-      run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add .
-        git commit -m "generated"
-        git push origin HEAD:dev/busroute_20220726_1
+      if: ${{ always() }}    
