@@ -61,3 +61,14 @@ jobs:
         path: junit/test-results-${{ matrix.python-version }}.txt
       # Use always() to always run this step to publish test results when there are test failures
       if: ${{ always() }}
+    - name: Run python
+      run: |
+        var=$(python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 1' 'South')
+        echo $var
+    - name: Push to github
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add .
+        git commit -m "generated"
+        git push
