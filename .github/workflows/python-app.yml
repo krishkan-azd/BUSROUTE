@@ -49,10 +49,18 @@ jobs:
         mkdir -p junit
         echo "artifacts created " > junit/test-results-${{ matrix.python-version }}.txt
     - name: List files in the repository and sample run nextbus.py examples
+      uses: actions/checkout@v2.1.0 
       run: |
         ls ${{ github.workspace }}
-        python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South' > junit/test-results-${{ matrix.python-version }}.txt
-        python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South' > junit/test-results-${{ matrix.python-version }}.txt
+        output=$(python nextbus.py 'Metro Blue Line' 'Target Field Station Platform 2' 'South')
+        output=$(python nextbus.py 'Metro Blue Line' 'U.S. Bank Stadium Station' 'South')
+        output="${output//'%'/'%25'}"
+        output="${output//$'\n'/'%0A'}"
+        output="${output//$'\r'/'%0D'}" 
+        echo "::set-output name=changelog::$output"
+      id: step1
+    - name: Print changelog
+      run: echo "${{ steps.step1.outputs.changelog }}"
         echo "🍏 This job's status is ${{ job.status }}."
     - name: Upload pytest test results
       uses: actions/upload-artifact@v3
