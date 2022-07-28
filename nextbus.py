@@ -19,7 +19,7 @@ def main():
     mins = next_bus.parse_time(get_nex_trip)
 
     if (int(mins) >= 1):
-        print('The next bus leaves in ' + mins + ' minute')
+        print('The next bus leaves in ' + mins + ' minutes')
     else:
         print('No busses found at this time')
 
